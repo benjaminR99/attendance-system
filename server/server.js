@@ -1,21 +1,20 @@
+require('dotenv').config()
 const path = require('path')
 const express = require('express')
 const app = express();
-const cors = require('cors');
 const PORT = process.env.PORT || 3500 ;
-const {logger} = require('./middleware/logger');
-const handleError = require('./middleware/errorHandler');
-const {corsOptions} = require('./config/allowedOrigin')
+const errorHandler = require('./middleware/errorHandler');
+const cors  =require('cors');
+const corsOptions = require('./config/corsOptions');
 
-app.use(logger);
+
 app.use(express.static(path.join(__dirname,"public")));
 app.use(express.json());
-
 app.use(cors(corsOptions));
 
-app.use('/',require('./Routers/root'));
 
-
+app.use('^/$|index(.html)?',require('./Routers/root'));
+app.use('/auth', require('./Routers/authRoutes'));
 
 
 app.all('*',(req,res)=>{
@@ -26,9 +25,11 @@ app.all('*',(req,res)=>{
     }else{
         res.type('txt').status(404).send("the requested page is not found")
     }
-})
+});
 
-app.use(handleError);
+
+app.use(errorHandler);
+
 
 app.listen(PORT, ()=>{
     console.log("listening to PORT ", PORT)
