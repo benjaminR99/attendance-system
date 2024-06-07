@@ -29,11 +29,13 @@ const App = () => {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
-        <Route element={loggedIn ? <Outlet /> : <Navigate to="/login" />}>
-          <Route index element={<Home setLoggedIn={setLoggedIn} user={user} />} />
-        </Route>
+        <Route index element={loggedIn ? <Home setLoggedIn={setLoggedIn} user={user} /> : <Navigate to="/login" />}/>
       </Route>
-      <Route path="/login" element={<Login setLoggedIn={setLoggedIn}/>} />
+
+      <Route
+        path="/login"
+        element={loggedIn ? <Navigate to="/" /> : <Login setLoggedIn={setLoggedIn} setUser={setUser} />}
+      />
     </Routes>
   );
 };
