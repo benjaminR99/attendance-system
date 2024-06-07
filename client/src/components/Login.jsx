@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import api from '../api/api'
 import { useNavigate } from 'react-router-dom';
 
-
 const Login = ({ setLoggedIn }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -12,8 +11,13 @@ const Login = ({ setLoggedIn }) => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await api.post('/auth', { user: username, pwd: password });
-      console.log('token', response.data.accessToken);
+      const response = await api.post('/auth', { 
+            user: username, 
+            pwd: password
+         });
+      localStorage.setItem('Loggedin',"true");
+      localStorage.setItem('user',username);
+      console.log('token', response.data.accessToken); //can decode and get username
       setLoggedIn(true);
       setUsername('');
       setPassword('');

@@ -1,19 +1,20 @@
-
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const Home = ({ setLoggedIn }) => {
+const Home = ({ setLoggedIn,user }) => {
 
   const navigate = useNavigate();
 
   const handleLogout = () => {
     setLoggedIn(false);
+    localStorage.removeItem('Loggedin');
+    localStorage.removeItem('user');
     navigate('/login');
   };
 
   return (
     <div className='home-container'>
-      <h2>Welcome</h2>
+      <h1>Welcome {user}</h1>
       <button onClick={handleLogout}>Logout</button>
     </div>
   );
