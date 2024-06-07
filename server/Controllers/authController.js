@@ -19,33 +19,8 @@ const login = async (req, res) => {
         const accessToken = jwt.sign(
             { "username": foundUser.username },
             process.env.ACCESS_TOKEN_SECRET,
-            { expiresIn: '30s' }
+            { expiresIn: '2d' }
         );
-        const refreshToken = jwt.sign(
-            { "username": foundUser.username },
-            process.env.REFRESH_TOKEN_SECRET,
-            { expiresIn: '1d' }
-        );
-
-        // Saving refreshToken with current user
-        const otherUsers = usersDB.users.filter(person => person.username !== foundUser.username);
-        const currentUser = { ...foundUser, refreshToken };
-        usersDB.setUsers([...otherUsers, currentUser]);
-
-        try {
-            await fsPromises.writeFile(
-                path.join(__dirname, '..', 'Model', 'users.json'),
-                JSON.stringify(usersDB.users) 
-            );
-        } catch (err) {
-            console.error("Error writing to file", err);
-            return res.status(500).json({ "message": "Internal server error" });
-        }
-
-        res.cookie('jwt', refreshToken, {
-            httpOnly: true,
-            maxAge: 24 * 60 * 60 * 1000
-        });
         res.json({ accessToken });
     } else {
         res.status(401).json({ "message": "Invalid password" });
