@@ -1,13 +1,20 @@
+
 import React from 'react';
-import api from '../api/api.js';
+import { useNavigate } from 'react-router-dom';
 
 const Home = ({ setLoggedIn }) => {
 
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    setLoggedIn(false);
+    navigate('/login');
+  };
 
   return (
     <div className='home-container'>
       <h2>Welcome</h2>
-      <button >Logout</button>
+      <button onClick={handleLogout}>Logout</button>
     </div>
   );
 };
