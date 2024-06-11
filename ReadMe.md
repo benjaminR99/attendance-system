@@ -44,17 +44,20 @@ Make sure you have the following installed:
 
 ### Start the Server
 To start the backend server, navigate to the `server` folder and run:
-    ```sh
-    npm run dev
-    ```
+
+```sh
+    npm start
+```
+
 The server will be running at [http://localhost:3500](http://localhost:3500).
 
 ### Start the Client
 To start the frontend client, navigate to the `client` folder and run:
-    ```sh
-    npm run dev
-    ```
-The client will be running at [http://localhost:5173](http://localhost:5173).
+```sh
+    npm run build
+    npm run preview
+```
+The client will be running at [http://localhost:5173](http://localhost:5173) by default.
 
 ## Login Credentials
 For testing purposes, you can use the following login credentials:
